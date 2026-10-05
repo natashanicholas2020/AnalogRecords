@@ -1,53 +1,170 @@
 body {
-    background-color: #894c30; /*boson brown, make a table texture later*/
+    background-color: #894c30; /* boson brown, make a table texture later */
 }
+
+/* ---------- Record crate ---------- */
+
+.crate {
+    width: 650px;
+    height: 310px;                     /* one third of the turntable's 930px */
+    background-color: #a0703f;         /* back wall of the crate */
+    border: 12px solid #7a5230;
+    border-top: none;                  /* open at the top */
+    border-radius: 0 0 12px 12px;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: 695px;    /* bottom lines up with the turntable's bottom edge */
+    left: 75px;
+
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    padding: 0 30px 20px;
+}
+
+.crate-front {
+    position: absolute;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    height: 100px;
+    background-color: #8a5d34;
+    border-top: 6px solid #6b4627;
+    border-radius: 0 0 12px 12px;
+}
+
+.album {
+    width: 240px;
+    height: 240px;
+    flex-shrink: 0;
+    background-color: #3b2f4a;   /* placeholder cover */
+    border-radius: 4px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+    padding: 16px;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/* Your hover lift goes here: an .album:hover rule,
+   plus a transition added to .album above */
+
+.album-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.album-artist {
+    margin: 6px 0 0;
+    font-size: 16px;
+}
+
+.crate-front {
+    position: absolute;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    height: 100px;
+    background-color: #8a5d34;
+    border-top: 6px solid #6b4627;
+    border-radius: 0 0 12px 12px;
+}
+
+/* ---------- Turntable ---------- */
 
 .record-box {
     width: 1000px;
     height: 850px;
-    background-color: #6f4d38; /* coffee */
-    border: 40px solid #aa7f66; /* adds a border, milk tea*/
-    border-radius: 25px;        /* rounds the corners */
+    background-color: #6f4d38;   /* coffee */
+    border: 40px solid #aa7f66;  /* milk tea */
+    border-radius: 25px;
 
-    position: absolute; 
-    top: 75px;   /* 100px down from the top edge */
-    left: 800px;  /* 250px right from the left edge */
-  }
+    position: absolute;
+    top: 75px;
+    left: 800px;
+}
+
+/* The metal disc the record sits on */
+.platter {
+    width: 690px;
+    height: 690px;
+    background: radial-gradient(circle, #e2e2e2, #a8a8a8);
+    border: 4px solid #8c8c8c;
+    border-radius: 50%;
+    box-sizing: border-box;   /* keeps the border inside the 690px */
+
+    position: absolute;
+    top: 80px;
+    left: 20px;
+}
 
 .record {
-  width: 650px;         /* Must be equal to height */
-  height: 650px;        /* Must be equal to width */
-  background-color: #000000; /* Circle color */
-  border-radius: 50%;   /* Turns the square into a circle */
+    width: 650px;
+    height: 650px;
+    background-color: #000000;
+    border-radius: 50%;
 
-    position: absolute; 
-    top: 100px;   /* 100px down from the top edge */
-    left: 20px;  /* 250px right from the left edge */
+    position: absolute;
+    top: 100px;
+    left: 40px;
+
+    animation: spin 5s linear infinite;
+    animation-play-state: paused;   /* frozen until it gets .spinning */
 }
 
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Added to the record by JavaScript when the needle lands */
+.spinning {
+    animation-play-state: running;
+}
+
+/* Shared by every circle on the label */
+.circle {
+    border-radius: 50%;
+    position: absolute;
+}
+
+/* The paper label */
 .outer {
-  width: 150px;         /* Must be equal to height */
-  height: 150px;        /* Must be equal to width */
-  background-color: #FFFFFF; /* Circle color */
-  border-radius: 50%;   /* Turns the square into a circle */
-
-    position: absolute; 
-    top: 250px;   /* 100px down from the top edge */
-    left: 250px;  /* 250px right from the left edge */
+    width: 150px;
+    height: 150px;
+    background-color: #ffffff;
+    top: 250px;
+    left: 250px;
 }
 
+/* The center hole */
 .inner {
-  width: 25px;         /* Must be equal to height */
-  height: 25px;        /* Must be equal to width */
-  background-color: #000000; /* Circle color */
-  border-radius: 50%;   /* Turns the square into a circle */
-
-    position: absolute; 
-    top: 62.5px;   /* 100px down from the top edge */
-    left: 62.5px;  /* 250px right from the left edge */
+    width: 25px;
+    height: 25px;
+    background-color: #000000;
+    top: 62.5px;
+    left: 62.5px;
 }
 
-/* The round mount the arm pivots on */
+/* Text on the label, above the hole so it shows the spin */
+.label-title {
+    position: absolute;
+    top: 28px;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ---------- Tonearm ---------- */
+
 .arm-base {
     width: 100px;
     height: 100px;
@@ -60,21 +177,26 @@ body {
     left: 800px;
 }
 
-/* The long arm itself */
 .arm {
     width: 14px;
     height: 480px;
     background-color: #c0c0c0;
     border-radius: 7px;
+    cursor: pointer;
 
     position: absolute;
     top: 156px;   /* starts at the center of the base */
     left: 849px;
 
     transform-origin: top center;   /* rotate around the top end */
+    transition: transform 1s ease;
 }
 
-/* Weight on the back end, above the pivot */
+/* Added to the arm by JavaScript when playing */
+.arm.swinging {
+    transform: rotate(30deg);
+}
+
 .counterweight {
     width: 40px;
     height: 50px;
@@ -86,7 +208,6 @@ body {
     left: -13px;
 }
 
-/* The piece at the end that holds the needle */
 .headshell {
     width: 36px;
     height: 60px;
