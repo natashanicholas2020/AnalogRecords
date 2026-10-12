@@ -38,17 +38,24 @@ body {
     width: 240px;
     height: 240px;
     flex-shrink: 0;
-    background-color: #3b2f4a;   /* placeholder cover */
+    background-color: #3b2f4a;     /* shows if the cover fails to load */
+    background-size: cover;        /* fills the square with the cover */
+    background-position: center;   /* keeps the image centered */
     border-radius: 4px;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
     padding: 16px;
     box-sizing: border-box;
     color: #ffffff;
     cursor: pointer;
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Your hover lift goes here: an .album:hover rule,
-   plus a transition added to .album above */
+/* Lifts the record out of the crate when the mouse is over it */
+.album:hover {
+    transform: translateY(-50px);
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.45);
+}
 
 .album-title {
     margin: 0;
@@ -59,17 +66,6 @@ body {
 .album-artist {
     margin: 6px 0 0;
     font-size: 16px;
-}
-
-.crate-front {
-    position: absolute;
-    left: -12px;
-    right: -12px;
-    bottom: -12px;
-    height: 100px;
-    background-color: #8a5d34;
-    border-top: 6px solid #6b4627;
-    border-radius: 0 0 12px 12px;
 }
 
 /* ---------- Turntable ---------- */
@@ -105,6 +101,8 @@ body {
     height: 650px;
     background-color: #000000;
     border-radius: 50%;
+    background-size: cover;        /* fills the whole circle with the cover */
+    background-position: center;   /* keeps the image centered */
 
     position: absolute;
     top: 100px;
@@ -150,17 +148,6 @@ body {
     background-color: #000000;
     top: 62.5px;
     left: 62.5px;
-}
-
-/* Text on the label, above the hole so it shows the spin */
-.label-title {
-    position: absolute;
-    top: 28px;
-    width: 100%;
-    margin: 0;
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
 }
 
 /* ---------- Tonearm ---------- */
