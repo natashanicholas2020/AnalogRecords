@@ -19,10 +19,10 @@ body {
 
     display: flex;
     align-items: flex-end;
-    gap: 20px;
     padding: 0 30px 20px;
 }
 
+/* Board across the front of the crate, always in front of the records */
 .crate-front {
     position: absolute;
     left: -12px;
@@ -32,15 +32,17 @@ body {
     background-color: #8a5d34;
     border-top: 6px solid #6b4627;
     border-radius: 0 0 12px 12px;
+    z-index: 20;
 }
 
 .album {
     width: 240px;
     height: 240px;
     flex-shrink: 0;
+    position: relative;            /* needed so z-index works */
     background-color: #3b2f4a;     /* shows if the cover fails to load */
-    background-size: cover;        /* fills the square with the cover */
-    background-position: center;   /* keeps the image centered */
+    background-size: cover;
+    background-position: center;
     border-radius: 4px;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
     padding: 16px;
@@ -51,10 +53,11 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Lifts the record out of the crate when the mouse is over it */
+/* Lifts the record out of the crate and brings it to the front */
 .album:hover {
     transform: translateY(-50px);
     box-shadow: 0 16px 28px rgba(0, 0, 0, 0.45);
+    z-index: 10;
 }
 
 .album-title {
@@ -96,13 +99,12 @@ body {
     left: 20px;
 }
 
+/* Black vinyl with subtle grooves */
 .record {
     width: 650px;
     height: 650px;
-    background-color: #000000;
+    background: repeating-radial-gradient(circle, #111111 0px, #111111 2px, #1c1c1c 3px, #111111 4px);
     border-radius: 50%;
-    background-size: cover;        /* fills the whole circle with the cover */
-    background-position: center;   /* keeps the image centered */
 
     position: absolute;
     top: 100px;
@@ -132,13 +134,16 @@ body {
     position: absolute;
 }
 
-/* The paper label */
+/* The paper label, where the album art goes */
 .outer {
-    width: 150px;
-    height: 150px;
+    width: 215px;
+    height: 215px;
     background-color: #ffffff;
-    top: 250px;
-    left: 250px;
+    background-size: cover;          /* fills the whole circle, no gaps */
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 217.5px;    /* (650 - 215) / 2 */
+    left: 217.5px;
 }
 
 /* The center hole */
@@ -146,8 +151,8 @@ body {
     width: 25px;
     height: 25px;
     background-color: #000000;
-    top: 62.5px;
-    left: 62.5px;
+    top: 95px;       /* (215 - 25) / 2 */
+    left: 95px;
 }
 
 /* ---------- Tonearm ---------- */

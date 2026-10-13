@@ -16,6 +16,14 @@ const albums = [
         genres: ["Pop", "R&B", "Dance"],
         color: "#c94f7c",
         cover: "images/popstartinashe.jpg"
+    },
+    {
+        title: "Youngblood",
+        artist: "5 Seconds of Summer",
+        year: 2018,
+        genres: ["Pop", "Pop rock"],
+        color: "#1f2a44",
+        cover: "images/youngblood5sos.jpg"
     }
 ];
 
@@ -24,6 +32,7 @@ const crate = document.querySelector(".crate");
 const crateFront = document.querySelector(".crate-front");
 const arm = document.querySelector(".arm");
 const record = document.querySelector(".record");
+const label = document.querySelector(".outer");
 
 // ---------- Build a record in the crate for each album ----------
 albums.forEach(function (album) {
@@ -33,7 +42,7 @@ albums.forEach(function (album) {
     // 2. Give it the "album" class so your CSS styles it
     albumDiv.classList.add("album");
 
-    // 3. Set its placeholder color
+    // 3. Set its cover (the color shows if the image fails to load)
     albumDiv.style.backgroundColor = album.color;
     albumDiv.style.backgroundImage = "url(" + album.cover + ")";
 
@@ -52,11 +61,40 @@ albums.forEach(function (album) {
     // 6. Put it in the crate, behind the front panel
     crate.insertBefore(albumDiv, crateFront);
 
-        // Clicking a record puts its cover on the turntable
+    // Clicking a record puts its cover on the turntable's label
     albumDiv.addEventListener("click", function () {
-        record.style.backgroundImage = "url(" + album.cover + ")";
+        label.style.backgroundImage = "url(" + album.cover + ")";
+        label.style.backgroundColor = album.color;
     });
 });
+
+// ---------- Overlap the records so they always fit in the crate ----------
+function layoutCrate() {
+    const albumDivs = crate.querySelectorAll(".album");
+    const count = albumDivs.length;
+    if (count < 2) return;   // one record doesn't need to overlap
+
+    // Space inside the crate, not counting its padding
+    const style = getComputedStyle(crate);
+    const available = crate.clientWidth
+        - parseFloat(style.paddingLeft)
+        - parseFloat(style.paddingRight);
+
+    const albumWidth = albumDivs[0].offsetWidth;
+
+    // Distance from one record's left edge to the next.
+    // Never more than the record's width plus a 20px gap.
+    const step = Math.min(albumWidth + 20, (available - albumWidth) / (count - 1));
+
+    // Pull every record after the first one left to overlap the one before it
+    albumDivs.forEach(function (div, i) {
+        if (i > 0) {
+            div.style.marginLeft = (step - albumWidth) + "px";
+        }
+    });
+}
+
+layoutCrate();
 
 // ---------- Tonearm ----------
 arm.addEventListener("click", function () {
