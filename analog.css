@@ -6,7 +6,6 @@ body {
 
 .crate {
     width: 650px;
-    height: 310px;                     /* one third of the turntable's 930px */
     background-color: #a0703f;         /* back wall of the crate */
     border: 12px solid #7a5230;
     border-top: none;                  /* open at the top */
@@ -14,12 +13,18 @@ body {
     box-sizing: border-box;
 
     position: absolute;
-    top: 695px;    /* bottom lines up with the turntable's bottom edge */
     left: 75px;
+    /* top is set by JavaScript so the bottom stays lined up with the turntable */
 
     display: flex;
-    align-items: flex-end;
-    padding: 0 30px 20px;
+    flex-direction: column;   /* stacks the rows on top of each other */
+    gap: 20px;                /* space between rows */
+    padding: 40px 30px 20px;
+}
+
+/* One row of up to 4 overlapping records */
+.crate-row {
+    display: flex;
 }
 
 /* Board across the front of the crate, always in front of the records */
@@ -45,9 +50,6 @@ body {
     background-position: center;
     border-radius: 4px;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
-    padding: 16px;
-    box-sizing: border-box;
-    color: #ffffff;
     cursor: pointer;
 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -58,17 +60,6 @@ body {
     transform: translateY(-50px);
     box-shadow: 0 16px 28px rgba(0, 0, 0, 0.45);
     z-index: 10;
-}
-
-.album-title {
-    margin: 0;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.album-artist {
-    margin: 6px 0 0;
-    font-size: 16px;
 }
 
 /* ---------- Turntable ---------- */
@@ -209,4 +200,55 @@ body {
     position: absolute;
     top: 440px;
     left: -11px;
+}
+
+/* ---------- Digital display ---------- */
+
+.display {
+    width: 240px;
+    height: 80px;
+    background-color: #0b1a0f;           /* dark screen */
+    border: 4px solid #2b2b2b;
+    border-radius: 8px;
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.8);   /* makes the screen look sunken */
+    padding: 8px 12px;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+
+    font-family: "VT323", "Courier New", monospace;
+    color: #39ff6a;                       /* glowing green */
+    text-shadow: 0 0 6px rgba(57, 255, 106, 0.7);
+    text-transform: uppercase;
+}
+
+.display-label {
+    margin: 0;
+    font-size: 16px;
+    opacity: 0.6;
+}
+
+/* The window the text scrolls through */
+.display-window {
+    overflow: hidden;       /* hides the text outside the screen */
+    white-space: nowrap;    /* keeps the text on one line */
+}
+
+.display-text {
+    display: inline-block;
+    padding-left: 100%;     /* starts the text just off the right edge */
+    font-size: 28px;
+    animation: scroll-text 10s linear infinite;
+}
+
+@keyframes scroll-text {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
 }
